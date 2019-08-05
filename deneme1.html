@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <title>Speech</title>
+        <style>
+            @import url(http://fonts.googleapis.com/css?family=Raleway:100,300);
+            body {
+                font-family: 'Raleway', sans-serif;
+                font-weight: 100;
+                color: black;
+                height: 100vh;
+                width: 100vw;
+                margin: 0;
+                padding: 0;
+                background-color: #222;
+                background-image: -moz-linear-gradient(top, #111111 0%, #666666 50%, #111111 100%);
+                background-image: -webkit-linear-gradient(top, #111111 0%, #666666 50%, #111111 100%);
+                background-image: linear-gradient(to bottom, #111111 0%, #666666 50%, #111111 100%);
+                font-family: 'Raleway', sans-serif;
+                font-weight: 100;
+                color: rgba(255, 255, 255, 0.5);    
+            }
+            .floatRight{
+                padding: 5px 5px 5px 5px;
+                width: auto;
+                height: auto;
+                float:right;
+                margin-right: 30px;
+                background-color: deepskyblue;
+                color: white;
+                border-style: solid;
+                border-width: thin;
+                border-color: black;
+                align-items: center;
+                border-radius: 5px;
+            }
+            .floatLeft{
+                padding: 5px 5px 5px 5px;
+                width: auto;
+                height: auto;
+                float:left;
+                margin-left: 30px;
+                background-color: deepskyblue;
+                color: white;
+                border-style: solid;
+                border-width: thin;
+                border-color: black;
+                align-items: center;
+                border-radius: 5px;
+            }
+            #waves {
+                width: 25%;
+                height: 50%;
+                position: relative;
+
+            }
+
+            #title {
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                font-size: 20px;
+                letter-spacing: 0.1em;
+                z-index: 100;
+                margin: 0;
+                padding: 0;
+                font-weight: 100;
+            }
+            #infoText{
+                font-size: 20px;
+                letter-spacing: 0.1em;
+                z-index: 100;
+                margin: 0;
+                padding: 0;
+                font-weight: 100;
+                margin-top: 20px;
+            }
+            * {
+                margin: 0;
+                padding: 0;
+                font-family: tahoma,sans-serif;
+                box-sizing: border-box;
+
+
+            }
+            .chatbox{
+                width: 60%;
+                min-height: 200px;
+                min-width: 500px;
+                height: 100%;
+                padding: 25px;
+                margin: 20px auto;
+                color: white;
+            }
+            .chatlogs{
+                padding: 10px;
+                width: 100%;
+                height:auto;
+                min-height: 0px;
+                max-height: 450px;
+                overflow-x: hidden;
+                overflow-y: scroll;
+            }
+            .chatlogs::-webkit-scrollbar{
+                width: 10px;
+            }
+            .chatlogs::-webkit-scrollbar-thumb{
+                border-radius: 5px;
+                background-color: #555;
+                margin-left: 5%;
+
+            }
+            .chat{
+                display: flex;
+                flex-flow: row wrap;
+                align-items: flex-start;
+                margin-bottom: 30px;
+
+            }
+            .chat .user-photo img {
+                width: 60px;
+                height: 60px;
+                background-color: white;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+            .chat .user-photo img {
+                width: %100;
+            }
+            .chat .chat-message{
+                width: 40%;
+
+                padding: 15px;
+                margin: 5px 10px 0;
+                font-size: 15px;
+                border-radius: 10px;
+            }
+            .analitics .chat-message{
+                background: linear-gradient(to top, #da22ff, #9733ee);
+            }
+            .me .chat-message{
+                background: linear-gradient(to top, #00c6ff, #0072ff);
+                order:-1;
+                margin-left: 50%;
+            }
+            #content{
+                margin-top: 10%;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="title">Magics</h1>
+        <div class="container-fluid text-center">
+            <div id="content">
+                <canvas id="waves"></canvas>
+                <button id="start_button" onclick="startDictation(event)">
+                    <img id="start_img" src="mic.gif" alt="Start"></button>
+                <h3 id="infoText">Press and start recording.</h3>
+            </div>
+
+            <div id="chatBox" class="chatbox">
+                <div id="chatlogs" class="chatlogs">
+
+
+                </div>
+            </div>
+        </div>
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="sine-waves.js"></script>
+        <script>
+
+        </script>
+        <script type="text/javascript">
+            var waves = new SineWaves({
+                el: document.getElementById('waves'),
+
+                speed: 4,
+
+                width: function() {
+                    return $(window).width();
+                },
+
+                height: '10%',
+
+                wavesWidth: '70%',
+                ease: 'SineInOut',
+
+                waves: [
+
+                    {
+                        timeModifier: 1,
+                        lineWidth: 1,
+                        amplitude: 25,
+                        wavelength: 20,
+                        //       strokeStyle: 'rgba(255, 255, 255, 0.3)'
+                        /*                  
+                    timeModifier: 2,
+                    lineWidth: 1,
+                    amplitude: 20,
+                    wavelength: 20,
+
+                    timeModifier: 4,
+                    lineWidth: 1,
+                    amplitude: 80,
+                    wavelength: 20,
+
+                    */
+                    }
+                ],
+
+                initialize: function (){
+
+                },
+
+
+                resizeEvent: function() {
+                    var gradient = this.ctx.createLinearGradient(0, 0, this.width, 0);
+                    gradient.addColorStop(1,"rgba(255, 255, 255, 0.5)");
+                    gradient.addColorStop(1,"rgba(255, 255, 255, 0.5)");
+                    gradient.addColorStop(1,"rgba(255, 255, 255, 0)");
+
+                    var index = -1;
+                    var length = this.waves.length;
+                    while(++index < length){
+                        this.waves[index].strokeStyle = gradient;
+                    }
+                    // Clean Up
+                    index = void 0;
+                    length = void 0;
+                    gradient = void 0;
+                }
+
+
+
+            });
+
+
+
+
+
+
+
+
+            var final_transcript = '';
+            var recognizing = false;
+            var i = 0;
+            if ('webkitSpeechRecognition' in window) {
+
+                var recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+
+                recognition.continuous = false;
+                recognition.interimResults = true;
+
+                recognition.onstart = function() {
+                    recognizing = true;
+                    start_img.src="mic-animate.gif";
+                    waves.options.speed = 40;
+                    document.getElementById("infoText").textContent="Recording..."
+                };
+
+                recognition.onerror = function(event) {
+                    console.log(event.message);
+                    start_img.src = 'mic-slash.gif';
+                };
+                recognition.onend = function() {
+                    recognizing = false;
+                    start_img.src="mic.gif";
+
+                    if(final_transcript.length>0){
+                        if(i==0){
+                            document.getElementById("chatBox").style.border="1px solid #777";
+                            document.getElementById("chatBox").style.borderRadius = "8px";
+
+                            document.getElementById("content").style.marginTop = "0px";
+                            document.getElementById("infoText").textContent="Recording...";
+                            i++;
+                        }
+
+
+
+
+                        var textSpeech = document.createElement("P");
+                        textSpeech.classList.add("chat-message");
+                        var node = document.createTextNode(final_transcript);   
+                        textSpeech.appendChild(node); 
+
+                        var img1 = document.createElement("img");
+                        img1.src ="1_zYMlOBzmixEzVgWkFe0T9A.png";
+                        var divphoto1 = document.createElement("div");
+                        divphoto1.classList.add("user-photo");
+                        divphoto1.appendChild(img1);
+
+                        var chatdiv1 =  document.createElement("div");
+                        chatdiv1.classList.add("chat");
+                        chatdiv1.classList.add("me");
+                        chatdiv1.appendChild(divphoto1);
+                        chatdiv1.appendChild(textSpeech);
+
+                        document.getElementById("chatlogs").appendChild(chatdiv1);
+
+                        var reply = document.createElement("p");
+                        reply.classList.add("chat-message");
+                        var node2 = document.createTextNode("I got you bro!");
+                        reply.appendChild(node2);
+
+                        var img2 = document.createElement("img");
+                        img2.src="%C3%9CCRETS%C4%B0Z.jpg";
+                        var divphoto2 = document.createElement("div");
+                        divphoto2.classList.add("user-photo");
+                        divphoto2.appendChild(img2);
+
+                        var chatdiv2 =  document.createElement("div");
+                        chatdiv2.classList.add("chat");
+                        chatdiv2.classList.add("analitics");
+                        chatdiv2.appendChild(divphoto2);
+                        chatdiv2.appendChild(reply);
+
+                        document.getElementById("chatlogs").appendChild(chatdiv2);
+
+
+                    }
+                    document.getElementById("infoText").textContent="Press and continue to recording."
+
+                    waves.options.speed = 4;
+                };
+                recognition.onresult = function(event) {
+                    var interim_transcript = '';
+                    for (var i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            final_transcript += event.results[i][0].transcript;
+                        } else {
+                            interim_transcript += event.results[i][0].transcript;
+                        }
+                    }
+                    final_transcript = capitalize(final_transcript);
+
+                };
+
+            }
+            recognition.onsoundend = function() { 
+                console.log('Audio capturing ended' +final_transcript); 
+                recognition.stop();
+            }
+            function capitalize(s) {
+                return s.replace(s.substr(0,1), function(m) { return m.toUpperCase(); });
+            }
+
+            function startDictation(event) {
+                if (recognizing) {
+                    recognition.stop();
+                    return;
+                }
+                /*border: 1px solid #777;
+                border-radius: 8px;*/
+
+
+                console.log('Audio capturing started'); 
+
+                final_transcript = '';
+                recognition.lang = 'tr-TR';
+
+                recognition.start();
+
+
+
+            }
+
+        </script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+    </body>
+</html>
